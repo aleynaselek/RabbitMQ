@@ -9,15 +9,15 @@ using var connection = factorty.CreateConnection();
 
 var channel = connection.CreateModel();
 
-channel.QueueDeclare("hello-queue", true, false, false);
+channel.ExchangeDeclare("logs-fanout", ExchangeType.Fanout,true); 
 
 Enumerable.Range(1, 50).ToList().ForEach(x =>
 {
-    string message = $"Message {x}";
+    string message = $"log {x}";
 
     var messageBody = Encoding.UTF8.GetBytes(message);
 
-    channel.BasicPublish("", "hello-queue", null, messageBody);
+    channel.BasicPublish("logs-fanout", "", null, messageBody);
 
     Console.WriteLine($"Mesaj gönderilmiştir: {message}");
 

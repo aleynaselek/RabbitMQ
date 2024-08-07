@@ -10,14 +10,16 @@ using var connection = factorty.CreateConnection();
 
 var channel = connection.CreateModel();
 
-// channel.QueueDeclare("hello-queue", true, false, false);
+var randomQueueName = channel.QueueDeclare().QueueName;
+  
+channel.QueueBind(randomQueueName, "logs-fanout", "",null);
 
 channel.BasicQos(0, 1, false);
 
 var consumer = new EventingBasicConsumer(channel);
 
-channel.BasicConsume("hello-queue", false, consumer);
-
+channel.BasicConsume(randomQueueName, false, consumer);
+Console.WriteLine("Loglar dinleniyor...");
 consumer.Received += (sender, eventArgs) =>
 {
     var message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
