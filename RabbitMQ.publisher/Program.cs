@@ -17,6 +17,7 @@ headers.Add("format", "pdf");
 headers.Add("shape", "a4");
 var properties = channel.CreateBasicProperties();
 properties.Headers = headers;
+properties.Persistent = true; // Mesajların kalıcı olması için
 channel.BasicPublish("header-exchange", string.Empty, properties, Encoding.UTF8.GetBytes("Header Exchange Mesajı"));
 
 Console.WriteLine("Mesaj gönderilmiştir.");
