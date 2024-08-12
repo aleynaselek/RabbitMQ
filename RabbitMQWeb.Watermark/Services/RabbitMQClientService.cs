@@ -21,8 +21,7 @@ namespace RabbitMQWeb.Watermark.Services
         public RabbitMQClientService(ConnectionFactory connectionFactory, ILogger<RabbitMQClientService> logger)
         {
             _connectionFactory = connectionFactory;
-            _logger = logger;
-            Connect();
+            _logger = logger; 
         }
 
         public IModel Connect()
